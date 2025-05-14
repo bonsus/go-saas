@@ -1,0 +1,39 @@
+
+
+app:
+  name: go-api-scribes-decoder
+  port: "4322"
+
+db:
+  host: localhost
+  port: 5432
+  user: scrb
+  password: U(CiwRZ80RvZEI%
+  name: scrbdb
+  timezone: "Asia/Jakarta"
+  connection_pool:
+    max_idle_connection: 10
+    max_open_connection: 30
+    max_litetime_connection: 60
+    max_idletime_connection: 60
+
+redis:
+  host: localhost
+  port: 6379
+
+jwt: 
+  key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+  type: "Bearer"
+  expire_time: 60000
+
+file:
+  temp_dir: "./storage/temp"
+
+s3:
+  dir: "medias"
+  domain: "https://is3.cloudhost.id/godev"
+  bucket_name: "godev"
+  endpoint: "https://is3.cloudhost.id"
+  region: "jkt-1-default"
+  access_key: "0DD7N24ND8SGBTJS8IU8"
+  secret_key: "vDtBTZikauFCDrEhGSxxtsv4DtjOHW7SNVDOD43K" 
