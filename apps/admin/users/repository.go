@@ -107,7 +107,9 @@ func (r *repository) Index(param ParamIndex) (*UserIndex, error) {
 	}
 
 	offset := (param.Page - 1) * param.Perpage
-	dbQuery := r.db.Model(&User{}).Preload("Role").Order("created_at DESC")
+	dbQuery := r.db.Model(&User{}).Preload("Role").
+		Select("id,name,username,email,created_at,updated_at").
+		Order("created_at DESC")
 	if param.Search != "" {
 		search := "%" + param.Search + "%"
 		dbQuery = dbQuery.Where(

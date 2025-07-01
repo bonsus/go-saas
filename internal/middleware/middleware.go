@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/bonsus/go-saas/internal/config"
 	myredis "github.com/bonsus/go-saas/internal/redis"
@@ -37,7 +36,8 @@ func Permission(db *gorm.DB, requiredPermission string) fiber.Handler {
 			})
 		}
 
-		cacheId := "user:" + claims.Id
+		cacheId := "use:" + claims.Id
+		// fmt.Println(cacheId)
 		var user *User
 		err = myredis.GetData(cacheId, &user)
 		if err != nil {
@@ -48,8 +48,10 @@ func Permission(db *gorm.DB, requiredPermission string) fiber.Handler {
 					"error": "Access Denied!",
 				})
 			}
-			myredis.SetData(cacheId, user, 30*time.Minute)
+			// myredis.SetData(cacheId, user, 30*time.Minute)
 		}
+
+		// fmt.Println(user)
 		c.Locals("user_id", user.Id)
 		c.Locals("user_company", user.Company)
 		c.Locals("user_name", user.Name)

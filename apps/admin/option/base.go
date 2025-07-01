@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitModule(router fiber.Router, db *gorm.DB) {
+func Run(router fiber.Router, db *gorm.DB) {
 	repo := NewRepository(db)
 	svc := *NewService(repo)
 	handler := newHandler(svc)

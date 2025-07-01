@@ -116,7 +116,7 @@ func (s *service) Login(ctx context.Context, req Request) (res Response, errorsM
 	return res, nil, nil
 }
 
-func (s *service) Me(userId string) (*User, error) {
+func (s *service) Me(userId string) (*Response, error) {
 	var user *User
 	cacheId := "user:" + userId
 	err := myredis.GetData(cacheId, &user)
@@ -128,7 +128,17 @@ func (s *service) Me(userId string) (*User, error) {
 		myredis.SetData(cacheId, user, 30*time.Minute)
 	}
 
-	return user, nil
+	cfg := config.GetConfig()
+	claims := token.Claims{
+		Id:         user.Id,
+		ExpireTime: time.Duration(time.Now().Unix() + int64(cfg.JWT.ExpireTime)),
+	}
+	token, _ := user.GenerateToken(claims, cfg.JWT.Key)
+	res := Response{
+		Token: token,
+		User:  *user,
+	}
+	return &res, nil
 }
 
 func (s *service) Update(req Request, Id string) (*User, map[string][]string, error) {

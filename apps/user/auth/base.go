@@ -15,7 +15,7 @@ func Run(router fiber.Router, db *gorm.DB) {
 	{
 		authRouter.Post("login", handler.LoginHandler)
 		authRouter.Post("register", handler.RegisterHandler)
-		authRouter.Post("me", middleware.Permission(db, ""), handler.meHandler)
+		authRouter.Get("me", middleware.Permission(db, ""), handler.meHandler)
 		authRouter.Put("me", middleware.Permission(db, ""), handler.updateHandler)
 		authRouter.Put("update-password", middleware.Permission(db, ""), handler.updatePasswordHandler)
 	}
